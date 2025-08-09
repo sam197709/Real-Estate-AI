@@ -1,51 +1,31 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import SearchPage from './pages/SearchPage';
+import PropertyDetailPage from './pages/PropertyDetailPage';
+import { Toaster } from './components/ui/toaster';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
+        <div className="min-h-screen bg-white">
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/cerca" element={<SearchPage />} />
+            <Route path="/compra" element={<SearchPage />} />
+            <Route path="/affitta" element={<SearchPage />} />
+            <Route path="/venduto" element={<SearchPage />} />
+            <Route path="/proprieta/:id" element={<PropertyDetailPage />} />
+            <Route path="/salvati" element={<div className="min-h-screen flex items-center justify-center"><h2 className="text-2xl">Case Salvate - Coming Soon</h2></div>} />
+            <Route path="/ricerche-salvate" element={<div className="min-h-screen flex items-center justify-center"><h2 className="text-2xl">Ricerche Salvate - Coming Soon</h2></div>} />
+            <Route path="/mutuo" element={<div className="min-h-screen flex items-center justify-center"><h2 className="text-2xl">Calcolatore Mutuo - Coming Soon</h2></div>} />
+          </Routes>
+          <Toaster />
+        </div>
       </BrowserRouter>
     </div>
   );
